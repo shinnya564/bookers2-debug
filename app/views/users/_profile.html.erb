@@ -10,6 +10,21 @@
 			<th>introduction</th>
 			<th><%= user.introduction %></th>
 		</tr>
+		<tr>
+			<th>follows</th>
+		</tr>
+		<tr>
+			<th>followers</th>
+		</tr>
+		<% if user.relationshiped_by?(current_user) %>
+			<%= link_to user_relationships_path(user), method: :delete do %>
+				<i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+			<% end %>
+		<% else %>
+			<%= link_to user_relationships_path(user), method: :post do %>
+				<i class="fa fa-heart-o" aria-hidden="true"></i>
+			<% end %>
+		<% end %>
 </table>
 
 <div class="row">

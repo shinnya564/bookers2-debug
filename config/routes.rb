@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :users,only: [:show,:index,:edit,:update]
+  resources :users,only: [:show,:index,:edit,:update] do
+  	resources :relationships, only: [:create, :destroy]
+  end
 
   resources :books do
 	resources :book_comments, only: [:create,:destroy]

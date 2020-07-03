@@ -3,10 +3,11 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
 
   def show
-  	@book = Book.find(params[:id])
-    @user = @book.user
+  	@book = Book.new
+    @books = Book.find(params[:id])
+    @user = @books.user
     @comment = BookComment.new
-    @comments = @book.book_comments
+    @comments = @books.book_comments
   end
 
   def index
@@ -43,12 +44,8 @@ class BooksController < ApplicationController
 
   def destroy
   	@book = Book.find(params[:id])
-    if @book.book_comments == current_user
-      @book.destroy
-    	redirect_to books_path, notice: "successfully delete book!"
-    else
-      render book_path(@book)
-    end
+    @book.destroy
+    redirect_to books_path, notice: "successfully delete book!"
   end
 
   private
