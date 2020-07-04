@@ -8,7 +8,10 @@ class BookCommentsController < ApplicationController
 	  	if @comment.save
 	  		redirect_to book_path(@books), notice: "successfully created book!"
 	  	else
-	  		redirect_to book_path(@books)
+	  		@book = Book.new
+	  		@user = @books.user
+    		@comments = @books.book_comments
+	  		render template: 'books/show'
 	  	end
 	end
 

@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 	before_action :baria_user, only: [:edit,:update]
 
-
   def show
   	@user = User.find(params[:id])
   	@books = @user.book
@@ -33,14 +32,14 @@ class UsersController < ApplicationController
 
   def followings
     @user =User.find(params[:id])
-    @users =@user.followings
-    @book = Book.new
+    @users =@user.followings.page(params[:page]).per(5)
+    render 'show_followings'
   end
 
   def followers
     @user =User.find(params[:id])
-    @users =@user.followers
-    @book = Book.new
+    @users =@user.followers.page(params[:page]).per(5)
+    render 'show_followers'
   end
 
   private

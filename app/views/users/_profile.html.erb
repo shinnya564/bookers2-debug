@@ -11,25 +11,26 @@
 		</tr>
 		<tr>
 			<th>follows：</th>
-			<th><%= user.following_relationships.count %></th>
+			<th><%= link_to user.following_relationships.count, followings_user_path, class: "user_#{user.id}" %><%=  %></th>
 		</tr>
 		<tr>
 			<th>followers：</th>
-			<th><%= user.follower_relationships.count %></th>
+			<th><%= link_to user.follower_relationships.count, followers_user_path, class: "user_#{user.id}" %><%=  %></th>
 		</tr>
-		<tr><th>
-		<% if user != current_user%>
-			<div id="follow_form">
-				<% if current_user.following?(user) %>
-					<%= render "/users/unfollow", user: user %>
-				<% else %>
-					<%= render "/users/follow", user: user %>
-				<% end %>
-			</div>
-		<% end %>
-		</th></tr>
 
 </table>
+
+<def class="row">
+	<% if user != current_user%>
+		<div id="follow_form">
+			<% if current_user.following?(user) %>
+				<%= render "/users/unfollow", user: user %>
+			<% else %>
+				<%= render "/users/follow", user: user %>
+			<% end %>
+		</div>
+	<% end %>
+</def>
 
 <div class="row">
 	<%= link_to '',edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
