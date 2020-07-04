@@ -26,6 +26,19 @@
 					<td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %></td>
 					<td><%= user.name%></td>
 					<td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
+					<td>フォロワー数：<%= user.follower_relationships.count %></td>
+					<td>フォロー数：<%= user.following_relationships.count %></td>
+					<td>
+						<% if user != current_user%>
+							<div id="follow_form">
+								<% if current_user.following?(user) %>
+									<%= render "unfollow" , user: user %>
+								<% else %>
+									<%= render "follow" , user: user %>
+								<% end %>
+							</div>
+						<% end %>
+					</td>
 				</tr>
 				<% end %>
 			</tbody>

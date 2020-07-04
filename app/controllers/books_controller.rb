@@ -21,8 +21,12 @@ class BooksController < ApplicationController
   	if @book.save #入力されたデータをdbに保存する。
   		redirect_to @book, notice: "successfully created book!"#保存された場合の移動先を指定。
   	else
-  		@books = Book.all
-  		render 'index'
+      @book =Book.new
+  		@books = Book.find(params[:id])
+      @user = @books.user
+      @comment = BookComment.new
+      @comments = @books.book_comments
+  		render 'show'
   	end
   end
 
