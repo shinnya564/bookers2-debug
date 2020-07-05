@@ -33,12 +33,20 @@ class User < ApplicationRecord
     self.following_relationships.find_by(following_id: other_user.id).destroy
   end
 
-  def self.search(search) #ここでのself.はUser.を意味する
-    if search
-      where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。User.は省略
-    else
-      all #全て表示。User.は省略
+  #DBからユーザー名を検索する
+  def User.search(search, user_or_book, match)
+    if user_or_book == "1"
+      if match == "1"
+        User.where(['name LIKE ?', "#{search}"])
+      elsif match == "2"
+        User.where(['name LIKE ?', "#{search}%"])
+      elsif match == "3"
+        User.where(['name LIKE ?', "%#{search}"])
+      elsif match == "4"
+        User.where(['name LIKE ?', "%#{search}%"])
+      else
+        User.all
+      end
     end
   end
-
 end
