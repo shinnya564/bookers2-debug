@@ -5,13 +5,34 @@
 			<th>name</th>
 			<th><%= user.name %></th>
 		</tr>
-
 		<tr>
 			<th>introduction</th>
 			<th><%= user.introduction %></th>
 		</tr>
+		<tr>
+			<th>follows：</th>
+			<th><%= link_to user.following_relationships.count, followings_user_path(user), class: "user_#{user.id}" %></th>
+		</tr>
+		<tr>
+			<th>followers：</th>
+			<th><%= link_to user.follower_relationships.count, followers_user_path(user), class: "user_#{user.id}" %></th>
+		</tr>
+
 </table>
+
+<def class="row">
+	<% if user != current_user%>
+		<div id="follow_form">
+			<% if current_user.following?(user) %>
+				<%= render "/users/unfollow", user: user %>
+			<% else %>
+				<%= render "/users/follow", user: user %>
+			<% end %>
+		</div>
+	<% end %>
+</def>
 
 <div class="row">
 	<%= link_to '',edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
 </div>
+

@@ -3,15 +3,17 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 	before_action :baria_user, only: [:edit,:update]
 
+
   def show
   	@user = User.find(params[:id])
-  	@books = @user.books
+  	@books = @user.book
   	@book = Book.new #new bookの新規投稿で必要（保存処理はbookコントローラー側で実施）
   end
 
   def index
   	@users = User.all #一覧表示するためにUserモデルのデータを全て変数に入れて取り出す。
   	@book = Book.new #new bookの新規投稿で必要（保存処理はbookコントローラー側で実施）
+    @susers = User.where(activated: true).search(params[:search])
   end
 
   def edit
@@ -30,7 +32,20 @@ class UsersController < ApplicationController
   	end
   end
 
+  def followings
+    @user =User.find(params[:id])
+    @users =@user.followings
+    @book = Book.new
+  end
+
+  def followers
+    @user =User.find(params[:id])
+    @users =@user.followers
+    @book = Book.new
+  end
+
   private
+
   def user_params
   	params.require(:user).permit(:name, :introduction, :profile_image)
   end

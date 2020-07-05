@@ -77,6 +77,8 @@ gem 'jquery-rails'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 
+gem 'kaminari','~> 1.2.1'
+
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'rspec-rails'

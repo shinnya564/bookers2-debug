@@ -14,22 +14,63 @@
 		<h2>Book detail</h2>
 
 		<table class="table">
-				<tr>
-					<td>
-						<%= link_to (@book.user) do %>
-						<%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
-						<%= @book.user.name %>
-						<% end %>
-					</td>
-					<td><%= link_to @book.title, @book %></td>
-					<td><%= @book.body %></td>
-			        <% if current_user == @book.user %>
-						<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-						<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
-					<% else %>
+			<tr>
+				<td>
+					<%= link_to (@books.user) do %>
+					<%= attachment_image_tag(@books.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
+					<%= @books.user.name %>
 					<% end %>
-				</tr>
-			</table>
+				</td>
+				<td><%= link_to @books.title, @book %></td>
+				<td><%= @books.body %></td>
+				<td>
+					<% if @books.favorited_by?(current_user) %>
+					  <%= link_to book_favorites_path(@books), method: :delete do %>
+					    <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+					    <%= @books.favorites.count %> いいね
+					  <% end %>
+					<% else %>
+					  <%= link_to book_favorites_path(@books), method: :post do %>
+					    <i class="fa fa-heart-o" aria-hidden="true"></i>
+					    <%= @books.favorites.count %> いいね
+					  <% end %>
+					<% end %>
+				</td>
+				<td>コメント数：<%= @books.book_comments.count %></td>
+			    <% if current_user == @books.user %>
+					<td><%= link_to "Edit",edit_book_path(@books), class: "btn-sm btn-success edit_book_#{@books.id}" %></td>
+					<td><%= link_to "Destroy",@books, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@books.id}" %></td>
+				<% else %>
+				<% end %>
+			</tr>
+		</table>
+
+		<% @comments.each do |bcomment| %>
+			<tr>
+				<td>
+					<%= link_to(bcomment.user) do %>
+						<%= attachment_image_tag(bcomment.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %>
+					<% end %>
+				</td>
+				<td>
+					<%= bcomment.comment %>
+				</td>
+			    <% if current_user == bcomment.user %>
+				<td>
+					<%= link_to "Destroy",book_book_comment_path(bcomment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_book_comment_#{bcomment.id}" %>
+				</td>
+				<% else %>
+				<% end %>
+				<br><br>
+			</tr>
+		<% end %>
+
+		<%= form_for [@books, @comment] do |f| %>
+			<div>
+				<%= f.text_area :comment, class: "col-xs-9 book_body" %>
+				<%= f.submit "更新" %>
+			</div>
+		<% end %>
 
 	</div>
 </div>

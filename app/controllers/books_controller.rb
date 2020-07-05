@@ -3,8 +3,11 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
 
   def show
-  	@book = Book.find(params[:id])
-    @user = @book.user
+  	@book = Book.new
+    @books = Book.find(params[:id])
+    @user = @books.user
+    @comment = BookComment.new
+    @comments = @books.book_comments
   end
 
   def index
@@ -18,6 +21,7 @@ class BooksController < ApplicationController
   	if @book.save #入力されたデータをdbに保存する。
   		redirect_to @book, notice: "successfully created book!"#保存された場合の移動先を指定。
   	else
+      @book =Book.new
   		@books = Book.all
   		render 'index'
   	end
@@ -30,8 +34,6 @@ class BooksController < ApplicationController
     end
   end
 
-
-
   def update
   	@book = Book.find(params[:id])
   	if @book.update(book_params)
@@ -43,8 +45,8 @@ class BooksController < ApplicationController
 
   def destroy
   	@book = Book.find(params[:id])
-  	@book.destroy
-  	redirect_to books_path, notice: "successfully delete book!"
+    @book.destroy
+    redirect_to books_path, notice: "successfully delete book!"
   end
 
   private
