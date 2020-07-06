@@ -65,12 +65,10 @@
 			</tr>
 		<% end %>
 
-		<%= form_for [@books, @comment] do |f| %>
-			<div>
-				<%= f.text_area :comment, class: "col-xs-9 book_body" %>
-				<%= f.submit "更新" %>
-			</div>
-		<% end %>
+
+		<tbody id="comments_index">
+		  <%= render 'books/comment', book: @books, comment:@comment %>
+		</tbody>
 
 	</div>
 </div>

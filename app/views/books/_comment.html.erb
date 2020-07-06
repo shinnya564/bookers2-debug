@@ -1,0 +1,7 @@
+
+		<%= form_for [book, comment] do |f| %>
+			<div>
+				<%= f.text_area :comment, class: "col-xs-9 book_body" %>
+				<%= f.submit "更新" %>
+			</div>
+		<% end %>
